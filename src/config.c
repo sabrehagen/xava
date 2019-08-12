@@ -14,6 +14,10 @@
 #include <sys/stat.h>
 #include <math.h>
 
+#ifdef WIN
+	#include <windows.h>
+#endif
+
 #include "output/graphical.h"
 #include "config.h"
 

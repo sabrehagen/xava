@@ -366,6 +366,7 @@ int init_window_win() {
 void apply_win_settings() {
 	clear_screen_win();
 	resize_framebuffer(p.w, p.h);
+	VBOGLsetup();
 	//ReleaseDC(xavaWinWindow, xavaWinFrame);
 
 	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT"); 
@@ -404,15 +405,15 @@ void draw_graphical_win(int bars, int rest, int f[200]) {
 	if(drawGLBars(rest, bars, glColors, gradColors, f)) exit(EXIT_FAILURE);
 
 	// dumb workarounds for dumb OSes
-	glBegin(GL_QUADS);
-		glColor4d(ARGB_R_32(p.bgcol)/255.0, ARGB_G_32(p.bgcol)/255.0, ARGB_B_32(p.bgcol)/255.0, p.background_opacity);
-		glVertex2d(0.0, 0.0);
-		glVertex2d(0.0, p.h);
-		glVertex2d(p.w, p.h);
-		glVertex2d(p.w, 0.0);
-	glEnd();
+	//glBegin(GL_QUADS);
+	//	glColor4d(ARGB_R_32(p.bgcol)/255.0, ARGB_G_32(p.bgcol)/255.0, ARGB_B_32(p.bgcol)/255.0, p.background_opacity);
+	//	glVertex2d(0.0, 0.0);
+	//	glVertex2d(0.0, p.h);
+	//	glVertex2d(p.w, p.h);
+	//	glVertex2d(p.w, 0.0);
+	//glEnd();
 
-	glFlush();
+	//glFlush();
 
 	// swap buffers
 	SwapBuffers(xavaWinFrame);

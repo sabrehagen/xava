@@ -371,13 +371,14 @@ int apply_window_settings_x()
 		glViewport(0, 0, p.w, p.h);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		
+
 		glOrtho(0, (double)p.w, 0, (double)p.h, -1, 1);
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
 		// Vsync causes problems on NVIDIA GPUs, looking for possible workarounds/fixes
 		glXSwapIntervalEXT(xavaXDisplay, xavaXWindow, p.vsync);
+		VBOGLsetup();
 		#endif
 	} else clear_screen_x();
 
@@ -486,7 +487,7 @@ void draw_graphical_x(int bars, int rest, int f[200], int flastd[200])
 
 	if(GLXmode) {
 		#ifdef GLX
-		for(int i=0; i<p.gradients; i++) {
+		for(uint i=0; i<p.gradients; i++) {
 			gradColors[i*3] = xgrad[i].red/65535.0;
 			gradColors[i*3+1] = xgrad[i].green/65535.0;
 			gradColors[i*3+2] = xgrad[i].blue/65535.0;
@@ -529,7 +530,8 @@ void cleanup_graphical_x(void)
 	// make sure that all events are dead by this point
 	XSync(xavaXDisplay, 1);
 
-	if(gradientBox != 0) { XFreePixmap(xavaXDisplay, gradientBox); gradientBox = 0; };
+	if(gradientBox != 0)
+		XFreePixmap(xavaXDisplay, gradientBox); gradientBox = 0;
  
 	#ifdef GLX
 		glXMakeCurrent(xavaXDisplay, 0, 0);
