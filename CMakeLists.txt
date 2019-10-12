@@ -12,7 +12,7 @@ set(CMAKE_C_STANDARD 11)
 set(xava_VERSION_MAJOR 0)
 set(xava_VERSION_MINOR 6)
 set(xava_VERSION_PATCH 2)
-set(xava_VERSION_TWEAK 2)
+set(xava_VERSION_TWEAK 3)
 
 add_definitions(-DPACKAGE="xava" -DVERSION="${xava_VERSION_MAJOR}.${xava_VERSION_MINOR}.${xava_VERSION_PATCH}.${xava_VERSION_TWEAK}")
 add_definitions(-DPREFIX="${CMAKE_INSTALL_PREFIX}")
@@ -23,11 +23,17 @@ find_package(PkgConfig REQUIRED)
 find_library(INIPARSER iniparser)
 if(NOT INIPARSER)
 	message(STATUS "iniparser not found on system, building from source.")
-	execute_process(COMMAND git submodule update --init)
-	add_library(iniparser
-			lib/iniparser/src/dictionary.c
-			lib/iniparser/src/iniparser.c)
-	add_definitions(-DINIPARSER)
+	if(EXISTS ${CMAKE_CURRENT_LIST_DIR}/.git)
+		execute_process(COMMAND git submodule update --init)
+		add_library(iniparser
+				lib/iniparser/src/dictionary.c
+				lib/iniparser/src/iniparser.c)
+		add_definitions(-DINIPARSER)
+	else()
+		message(FATAL_ERROR "Cannot build iniparser from source since the project \
+is not being built inside a git repository.\nIf you want iniparser \
+to be built automatically, clone this repository instead of downloading it.")
+	endif()
 endif()
 
 if(DEFINE_LEGACYINIPARSER AND INIPARSER)
