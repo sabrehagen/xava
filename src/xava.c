@@ -540,7 +540,8 @@ as of 0.4.0 all options are specified in config file, see in '/home/username/.co
 
 				if (should_reload) {
 					reloadConf = true;
-					resizeWindow = true;
+					resizeWindow = false;
+					redrawWindow = true;
 					should_reload = 0;
 				}
 
